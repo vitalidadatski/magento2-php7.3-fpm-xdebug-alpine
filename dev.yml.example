@@ -1,0 +1,17 @@
+version: "3.4"
+
+services:
+  nginx:
+    volumes:
+      - ${PWD}/build/php7-fpm-xdebug/config/nginx/conf.d/02-upstream-xdebug.conf:/etc/nginx/conf.d/02-upstream-xdebug.conf
+
+  php7-fpm-xdebug:
+    image: 'vitalidadatski/magento2-php7.3-fpm-xdebug-alpin:latest'
+    volumes:
+      - magento2-root:${MAGENTO_ROOT:-/var/www/magento2}:nocopy
+    restart: always
+    working_dir: ${MAGENTO_ROOT:-/var/www/magento2}
+    depends_on:
+      - php7-fpm
+    networks:
+      - mage
